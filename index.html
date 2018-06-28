@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Site Title</title>
+        <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+	<meta name="viewport" content="width=device-width, initial-scale=0.728">
+        <style type="text/css">
+            #admin-console {
+                display: none;
+                position: absolute;
+                margin-left: 300px;
+                margin-top: 25px;
+                padding: 25px;
+                border: thin solid #555555;
+                background-color: #EEEEEE;
+                z-index: 1;
+            }
+            #admin-console-form {
+                display: inline-block;
+            }
+            body {
+                margin: 0px;
+                padding: 0px;
+                font-family: 'Montserrat', sans-serif;
+            }
+            p {
+                margin: 0px;
+                padding: 0px;
+            }
+            #noconnect-container {
+                width: 100%;
+            }
+            .noconnect {
+                position: absolute;
+                margin-left: 35%;
+                margin-right: 15%;
+                margin-top: 40vh;
+                padding: 0px 10%;
+                text-align: center;
+                color: grey;
+            }
+            .sidebar-container {
+                position: fixed;
+                height: 100vh;
+                width: 15%;
+                min-width: 240px;
+                background-color: #368BC1;
+            }
+            .sidebar-header {
+                height: 80px;
+                background-color: #AAD4E5;
+                color: white;
+                font-weight: bold;
+                font-size: 32px;
+                text-align: center;
+                padding-top: 32px;
+            }
+            .sidebar {
+                padding-top: 32px;
+                color: white;
+                text-align: center;
+                font-size: 18px;
+            }
+            #connection-status {
+                width: 70%;
+                margin-top: 24px;
+                margin-left: 15%;
+                margin-bottom: 100px;
+                padding: 10px 0px;
+                border-radius: 32px;
+                background-color: white;
+                color: crimson;
+                font-size: 18px;
+                font-weight: bold;
+            }
+            #current-users {
+                margin-top: 24px;
+                margin-bottom: 80px;
+                font-size: 36px;
+            }
+            #daily-users {
+                margin-top: 24px;
+                font-size: 36px;
+            }
+            .padder {
+                float: left;
+                display: inline-block;
+                width: 15%;
+                min-width: 240px;
+                height: 100vh;
+                background-color: black;
+            }
+            .main {
+                float: left;
+                width: 66%;
+                min-width: 560px;
+                padding: 48px 4%;
+            }
+            #search-container {
+                display: none;
+            }
+            .search-header {
+                font-size: 32px;
+                color: grey;
+            }
+            .search-restriction-list {
+                margin: 18px 0px 18px 0px;
+                list-style: none;
+            }
+            .search-restriction-list li {
+                display: inline;
+                margin: 0px 40px 0px 0px;
+                font-size: 16px;
+                color: grey;
+            }
+            .radio-button {
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                appearance: none;
+                border-radius: 50%;
+                width: 20px;
+                height: 20px;
+                border: 2px solid #999;
+                outline: none;
+                margin-right: 8px;
+                transition: 0.2s all linear;
+                position: relative;
+                top: 3px;
+            }
+            .radio-button:checked {
+                border: 6px solid #AAD4E5;
+            }
+            .radio-button:focus {
+                border: 6px solid #368BC1;
+            }
+            .search-separator {
+                height: 1px;
+                background-color: lightgrey;
+            }
+            .search-subheader {
+                margin-top: 36px;
+                margin-left: 18px;
+                margin-bottom: 36px;
+                font-size: 24px;
+                color: grey;
+            }
+            .search-m1 {
+                font-size: 18px;
+                color: grey;
+                margin-bottom: 36px;
+                margin-left: 24px;
+            }
+            #search-m1-input {
+                width: 240px;
+                height: 18px;
+                margin: 0px 16px 0px 16px;
+                padding: 8px 16px;
+                border: 2px solid #AAD4E5;
+                border-radius: 32px;
+                outline: none;
+                font-family: "Montserrat", sans-serif;
+                font-size: 16px;
+                color: grey;
+            }
+            #search-m1-input:focus {
+                background-color: #EFEFEF;
+                border: 2px solid #60bbd1;
+            }
+            #search-m1-submit {
+                width: 100px;
+                height: 38px;
+                background-color: #AAD4E5;
+                color: white;
+                border: none;
+                border-radius: 32px;
+                outline: none;
+                font-size: 16px;
+            }
+            #search-m1-submit:hover {
+                background-color: #60bbd1;
+            }
+            #search-m1-submit:active {
+                background-color: #368BC1;
+            }
+            #search-m1-submit:focus {
+                background-color: #60bbd1;
+            }
+            .search-m2 {
+                font-size: 18px;
+                color: grey;
+                margin-bottom: 36px;
+                margin-left: 24px;
+            }
+            #search-m2-input {
+                width: 240px;
+                height: 18px;
+                margin: 0px 16px 0px 16px;
+                padding: 8px 16px;
+                border: 2px solid #AAD4E5;
+                border-radius: 32px;
+                outline: none;
+                font-family: "Montserrat", sans-serif;
+                font-size: 16px;
+                color: grey;
+            }
+            #search-m2-input:focus {
+                background-color: #e5f4ff;
+                border: 2px solid #3fa5ce;
+            }
+            #search-m2-input:invalid:focus {
+                background-color: #EFEFEF;
+                border: 2px solid #60bbd1;
+            }
+            #search-m2-submit {
+                width: 100px;
+                height: 38px;
+                background-color: #AAD4E5;
+                color: white;
+                border: none;
+                border-radius: 32px;
+                outline: none;
+                font-size: 16px;
+            }
+            #search-m2-submit:hover {
+                background-color: #60bbd1;
+            }
+            #search-m2-submit:active {
+                background-color: #368BC1;
+            }
+            #search-m2-submit:focus {
+                background-color: #60bbd1;
+            }
+            .search-m0 {
+                font-size: 18px;
+                color: grey;
+                margin-bottom: 36px;
+                margin-left: 24px;
+            }
+            #search-m0-input {
+                width: 128px;
+                height: 18px;
+                margin: 0px 16px 0px 16px;
+                padding: 8px 16px;
+                border: 2px solid #AAD4E5;
+                border-radius: 32px;
+                outline: none;
+                font-family: "Montserrat", sans-serif;
+                font-size: 16px;
+                color: grey;
+            }
+            #search-m0-input:focus {
+                background-color: #e5f4ff;
+                border: 2px solid #3fa5ce;
+            }
+            #search-m0-input:invalid:focus {
+                background-color: #EFEFEF;
+                border: 2px solid #60bbd1;
+            }
+            #search-m0a-input {
+                width: 18px;
+                height: 18px;
+                margin: 0px 16px 0px 16px;
+                padding: 8px 16px;
+                border: 2px solid #AAD4E5;
+                border-radius: 32px;
+                outline: none;
+                font-family: "Montserrat", sans-serif;
+                font-size: 16px;
+                color: grey;
+            }
+            #search-m0a-input:focus {
+                background-color: #e5f4ff;
+                border: 2px solid #3fa5ce;
+            }
+            #search-m0a-input:invalid:focus {
+                background-color: #EFEFEF;
+                border: 2px solid #60bbd1;
+            }
+            #search-m0b-input {
+                width: 22px;
+                height: 18px;
+                margin: 0px 16px 0px 16px;
+                padding: 8px 16px;
+                border: 2px solid #AAD4E5;
+                border-radius: 32px;
+                outline: none;
+                font-family: "Montserrat", sans-serif;
+                font-size: 16px;
+                color: grey;
+            }
+            #search-m0b-input:focus {
+                background-color: #e5f4ff;
+                border: 2px solid #3fa5ce;
+            }
+            #search-m0b-input:invalid:focus {
+                background-color: #EFEFEF;
+                border: 2px solid #60bbd1;
+            }
+            #search-m0b-submit {
+                width: 160px;
+                height: 38px;
+                margin-top: 24px;
+                margin-left: 40px;
+                background-color: #AAD4E5;
+                color: white;
+                border: none;
+                border-radius: 32px;
+                outline: none;
+                font-size: 16px;
+            }
+            #search-m0-submit:hover {
+                background-color: #60bbd1;
+            }
+            #search-m0-submit:active {
+                background-color: #368BC1;
+            }
+            #search-m0-submit:focus {
+                background-color: #60bbd1;
+            }
+            #loading-container {
+                width: 100%;
+                display: none;
+            }
+            .loading {
+                position: absolute;
+                margin-left: 45%;
+                margin-top: 40vh;
+                text-align: center;
+                color: grey;
+            }
+            .loader {
+                margin-left: 140px;
+                margin-bottom: 20px;
+                border: 8px solid #f3f3f3;
+                border-radius: 50%;
+                border-top: 8px solid #AAD4E5;
+                width: 60px;
+                height: 60px;
+                -webkit-animation: spin 1s linear infinite;
+                animation: spin 1s linear infinite;
+            }
+
+            @-webkit-keyframes spin {
+                0% { -webkit-transform: rotate(0deg); }
+                100% { -webkit-transform: rotate(360deg); }
+            }
+
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+            }
+            
+            #results-container {
+                display: none;
+                width: 100%;
+                max-width: 660px;
+            }
+            .results-header {
+                font-size: 32px;
+                color: grey;
+                margin-bottom: 24px;
+            }
+            .results-subheader {
+                margin-left: 18px;
+                color: #368BC1;
+            }
+            #ip {
+                margin-bottom: 12px;
+                font-size: 28px;
+            }
+            #slot {
+                margin-bottom: 12px;
+                font-size: 28px;
+            }
+            #port {
+                margin-bottom: 24px;
+                font-size: 28px;
+            }
+            #r0-container {
+                width: 400px;
+                margin-left: 72px;
+                margin-bottom: 32px;
+                padding: 24px;
+                background-color: limegreen;
+                color: white;
+                border-radius: 8px;
+            }
+            .r0-header {
+                display: inline-block;
+                font-size: 36px;
+            }
+            #r0 {
+                display: inline-block;
+                font-size: 36px;
+            }
+            .r1-container {
+                display: inline-block;
+                width: 40%;
+                margin: 0px 5% 32px 18px;
+                text-align: center;
+            }
+            .r1-header {
+                color: #AAD4E5;
+            }
+            #r1 {
+                font-weight: bold;
+                font-size: 24px;
+                color: #368BC1;
+            }
+            .r2-container {
+                display: inline-block;
+                width: 40%;
+                text-align: center;
+            }
+            .r2-header {
+                color: #AAD4E5;
+            }
+            #r2 {
+                font-weight: bold;
+                font-size: 24px;
+                color: #368BC1;
+            }
+            .r3-container {
+                display: inline-block;
+                width: 40%;
+                margin: 0px 5% 32px 18px;
+                text-align: center;
+            }
+            .r3-header {
+                color: #AAD4E5;
+            }
+            #r3 {
+                font-weight: bold;
+                font-size: 24px;
+                color: #368BC1;
+            }
+            .r4-container {
+                display: inline-block;
+                width: 40%;
+                text-align: center;
+            }
+            .r4-header {
+                color: #AAD4E5;
+            }
+            #r4 {
+                font-weight: bold;
+                font-size: 24px;
+                color: #368BC1;
+            }
+            .r5-container {
+                display: inline-block;
+                width: 40%;
+                margin: 0px 5% 32px 18px;
+                text-align: center;
+            }
+            .r5-header {
+                color: #AAD4E5;
+            }
+            #r5 {
+                font-weight: bold;
+                font-size: 24px;
+                color: #368BC1;
+            }
+            .r6-container {
+                display: inline-block;
+                width: 40%;
+                text-align: center;
+            }
+            .r6-header {
+                color: #AAD4E5;
+            }
+            #r6 {
+                font-weight: bold;
+                font-size: 24px;
+                color: #368BC1;
+            }
+            .r7-container {
+                display: inline-block;
+                width: 40%;
+                margin: 0px 5% 32px 18px;
+                text-align: center;
+            }
+            .r7-header {
+                color: #AAD4E5;
+            }
+            #r7 {
+                font-weight: bold;
+                font-size: 24px;
+                color: #368BC1;
+            }
+            .r8-container {
+                display: inline-block;
+                width: 40%;
+                text-align: center;
+            }
+            .r8-header {
+                color: #AAD4E5;
+            }
+            #r8 {
+                font-weight: bold;
+                font-size: 24px;
+                color: #368BC1;
+            }
+            .r9-container {
+                display: inline-block;
+                width: 40%;
+                margin: 0px 5% 32px 18px;
+                text-align: center;
+            }
+            .r9-header {
+                color: #AAD4E5;
+            }
+            #r9 {
+                font-weight: bold;
+                font-size: 24px;
+                color: #368BC1;
+            }
+            .r10-container {
+                display: inline-block;
+                width: 40%;
+                text-align: center;
+            }
+            .r10-header {
+                color: #AAD4E5;
+            }
+            #r10 {
+                font-weight: bold;
+                font-size: 24px;
+                color: #368BC1;
+            }
+            @media screen and (max-width: 930px) {
+            	.sidebar-container {
+                	display: none;
+            	}
+            	.padder {
+                	display: none;
+            	}
+            	.loading {
+                	margin-left: 20%;
+            	}
+            	.noconnect {
+                	margin-left: 20%;
+            	}
+		#search-m1-input {
+			height: 40px;
+			font-size: 20px;
+		}
+		#search-m1-submit {
+			height: 60px;
+			display: block;
+			margin-top: 12px;
+                	margin-left: 66px;
+			font-size: 20px;
+		}
+		#search-m2-input {
+			height: 40px;
+			font-size: 20px;
+		}
+		#search-m2-submit {
+			height: 60px;
+			display: block;
+			margin-top: 12px;
+                	margin-left: 46px;
+			font-size: 20px;
+		}
+		#search-m0-input {
+			height: 40px;
+			width: 156px;
+			font-size: 20px;
+		}
+		#search-m0a-input {
+			height: 40px;
+			width: 32px;
+			font-size: 20px;
+		}
+		#search-m0b-input {
+			height: 40px;
+			width: 32px;
+			font-size: 20px;
+		}
+		#search-m0-submit {
+			height: 60px;
+			font-size: 20px;
+			margin-top: 12px;
+		}
+            }
+        </style>
+    </head>
+    <body>
+        <div id="admin-console">
+            <span>Command: </span><form id="admin-console-form" action="javascript:void(0);" onsubmit="adminSubmit();"><input id="admin-console-input" type="text" autocomplete="off"><input id="admin-console-submit" type="submit"></form>
+        </div>
+        <div class="sidebar-container">
+            <div class="sidebar-header">
+                App Name
+            </div>
+            <div class="sidebar">
+                <p>Connection Status</p>
+                <p id="connection-status">Not Connected</p>
+                <p>Current Users</p>
+                <p id="current-users">N/A</p>
+                <p>Daily Users</p>
+                <p id="daily-users">N/A</p>
+            </div>
+        </div>
+        <div class="padder">
+        </div>
+        <div id="noconnect-container">
+            <div class="noconnect">
+                Connection to server <span style="color:crimson;">failed</span>. Please attempt to reload the page. Else, if the server is down, please contact <span style="color:#3090C7;">contact@server.ext</span>
+            </div>
+        </div>
+        <div class="main">
+            <div id="search-container">
+                <div class="search-header">
+                    <p>Search</p>
+                    <ul class="search-restriction-list">
+                        <li><input id="radio-unknown" class="radio-button" type="radio" name="type" value="unknown" checked>Unknown</li>
+                        <li><input id="radio-first" class="radio-button" type="radio" name="type" value="first">First</li>
+                        <li><input id="radio-second" class="radio-button" type="radio" name="type" value="second">Second</li>
+                    </ul>
+                </div>
+                <div class="search-separator"></div>
+                <div class="search-subheader">
+                    Search by m1
+                </div>
+                <div class="search-m1">
+                    <form id="m1form" action="javascript:void(0);" onsubmit="m1Submit();"><span>m1:</span><input id="search-m1-input" type="text" autocomplete="off" required><input type="submit" id="search-m1-submit" value="Search"></form>
+                </div>
+                <div class="search-separator"></div>
+                <div class="search-subheader">
+                    Search by m2
+                </div>
+                <div class="search-m2">
+                    <form id="m2form" action="javascript:void(0);" onsubmit="m2Submit();"><span>m2:</span><input id="search-m2-input" type="tel" autocomplete="off" pattern="((\d{1,3}-?)?\d{3}-?\d{3}-?\d{4})" title="m2 eg. 123-456-7890" required><input type="submit" id="search-m2-submit" value="Search"></form>
+                </div>
+                <div class="search-separator"></div>
+                <div class="search-subheader">
+                    Search by IP, Slot, and Port
+                </div>
+                <div class="search-m0">
+                    <form id="m0form" action="javascript:void(0);" onsubmit="m0Submit();"><span>m0:</span><input id="search-m0-input" type="text" autocomplete="off" pattern="^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$" title="m0 eg. 101.101.101.101" required><span>m0a:</span><input id="search-m0a-input" type="text" autocomplete="off" pattern="[0-9]{1,2}" title="m0a: 1-2 digits eg. 3" required><span>m0b:</span><input id="search-m0b-input" type="text" autocomplete="off" pattern="[1-4]?[0-9]" title="m0b: 1-2 digits eg. 12" required><br><input type="submit" id="search-m0-submit" value="Search"></form>
+                </div>
+            </div>
+            <div id="results-container">
+                <div class="results-header">
+                    <p>Results</p>
+                </div>
+                <div class="results-subheader">
+                    <div id="m0">
+                        N/A
+                    </div>
+                    <div id="m0a">
+                        N/A
+                    </div>
+                    <div id="m0b">
+                        N/A
+                    </div>
+                </div>
+                <div id="r0-container">
+                    <div class="r0-header">
+                        r0:&nbsp
+                    </div>
+                    <div id="r0">
+                        N/A
+                    </div>
+                </div>
+                <div class="r1-container">
+                    <div class="r1-header">
+                        r1
+                    </div>
+                    <div id="r1">
+                        N/A
+                    </div>
+                </div>
+                <div class="r2-container">
+                    <div class="r2-header">
+                        r2
+                    </div>
+                    <div id="r2">
+                        N/A
+                    </div>
+                </div>
+                <br>
+                <div class="r3-container">
+                    <div class="r3-header">
+                        r3
+                    </div>
+                    <div id="r3">
+                        N/A
+                    </div>
+                </div>
+                <div class="r4-container">
+                    <div class="r4-header">
+                        r4
+                    </div>
+                    <div id="r4">
+                        N/A
+                    </div>
+                </div>
+                <br>
+                <div class="r5-container">
+                    <div class="r5-header">
+                        r5
+                    </div>
+                    <div id="r5">
+                        N/A
+                    </div>
+                </div>
+                <div class="r6-container">
+                    <div class="r6-header">
+                        r6
+                    </div>
+                    <div id="r6">
+                        N/A
+                    </div>
+                </div>
+                <br>
+                <div class="r7-container">
+                    <div class="r7-header">
+                        r7
+                    </div>
+                    <div id="r7">
+                        N/A
+                    </div>
+                </div>
+                <div class="r8-container">
+                    <div class="r8-header">
+                        r8
+                    </div>
+                    <div id="r8">
+                        N/A
+                    </div>
+                </div>
+                <br>
+                <div class="r9-container">
+                    <div class="r9-header">
+                        r9
+                    </div>
+                    <div id="r9">
+                        N/A
+                    </div>
+                </div>
+                <div class="r10-container">
+                    <div class="r10-header">
+                        r10
+                    </div>
+                    <div id="r10">
+                        N/A
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="loading-container">
+            <div class="loading">
+                <div class="loader"></div>
+                <div id="loading-message">
+                    Request sent. Waiting on response from server...
+                </div>
+            </div>
+        </div>
+        <script>
+            var connection = document.getElementById('connection-status'),
+                cusers = document.getElementById('current-users'),
+                dusers = document.getElementById('daily-users'),
+                noconnect = document.getElementById('noconnect-container'),
+                search = document.getElementById('search-container'),
+                loading = document.getElementById('loading-container'),
+                results = document.getElementById('results-container'),
+                m0button = document.getElementById('search-m0-submit'),
+                unknown = document.getElementById('radio-unknown'),
+                first = document.getElementById('radio-first'),
+                second = document.getElementById('radio-second'),
+                websocket = new WebSocket("ws://name_or_ip:port/");
+            function adminControls() {
+                var adminconsole = document.getElementById('admin-console');
+                adminconsole.style.display = "block";
+            }
+            function adminSubmit() {
+                var admin = document.getElementById('admin-console-input');
+                websocket.send(JSON.stringify({'type': 'admin', 'cmd': admin.value}));
+                var adminconsole = document.getElementById('admin-console');
+                adminconsole.style.display = "none";
+                return false
+            }
+            function m1Submit() {
+                var device;
+                if (unknown.checked == true) {
+                    device = unknown.value;
+                } else if (first.checked == true) {
+                    device = first.value;
+                } else {
+                    device = second.value;
+                }
+                var m1 = document.getElementById('search-m1-input');
+                websocket.send(JSON.stringify({'type': 'm1', 'device': device, 'm1': m1.value}));
+                search.style.display = "none";
+                loading.style.display = "block";
+                return false
+            }
+            function m2Submit() {
+                var device;
+                if (unknown.checked == true) {
+                    device = unknown.value;
+                } else if (first.checked == true) {
+                    device = first.value;
+                } else {
+                    device = second.value;
+                }
+                var m2 = document.getElementById('search-m2-input');
+                websocket.send(JSON.stringify({'type': 'm2', 'device': device, 'm2': m2.value}));
+                search.style.display = "none";
+                loading.style.display = "block";
+                return false
+            }
+            function m0Submit() {
+                var device;
+                if (unknown.checked == true) {
+                    device = unknown.value;
+                } else if (first.checked == true) {
+                    device = first.value;
+                } else {
+                    device = second.value;
+                }
+                var m0 = document.getElementById('search-m0-input');
+                var m0a = document.getElementById('search-m0a-input');
+                var m0b = document.getElementById('search-m0b-input');
+                websocket.send(JSON.stringify({'type': 'm0', 'device': device, 'm0': m0.value, 'm0a': m0a.value, 'm0b': m0b.value}));
+                search.style.display = "none";
+                loading.style.display = "block";
+                return false
+            }
+            websocket.onmessage = function (event) {
+                data = JSON.parse(event.data);
+                switch (data.type) {
+                    case 'connection':
+                        if (data.value == 'Connected') {
+                            connection.textContent = data.value;
+                            connection.style.color = "limegreen";
+                            noconnect.style.display = "none";
+                            search.style.display = "block";
+                        }
+                        else if (data.value == 'Disconnected') {
+                            connection.textContent = data.value;
+                            connection.style.color = "crimson";
+                            if (results.style.display == "") {
+                                search.style.display = "none";
+                                loading.style.display = "none";
+                                noconnect.style.display = "block";
+                            }
+                        }
+                        break;
+                    case 'cusers':
+                        cusers.textContent = data.value.toString();
+                        break;
+                    case 'dusers':
+                        dusers.textContent = data.value.toString();
+                        break;
+                    case 'results':
+                        if (data.device == 'first') {
+                            loading.style.display = "none";
+                            results.style.display = "block";
+                            var m0 = document.getElementById('m0'),
+                                m0a = document.getElementById('m0a'),
+                                m0b = document.getElementById('m0b'),
+                                r0 = document.getElementById('r0'),
+                                r1 = document.getElementById('r1'),
+                                r2 = document.getElementById('r2'),
+                                r3 = document.getElementById('r3'),
+                                r4 = document.getElementById('r4'),
+                                r5 = document.getElementById('r5'),
+                                r6 = document.getElementById('r6'),
+                                r7 = document.getElementById('r7'),
+                                r8 = document.getElementById('r8'),
+                                r9 = document.getElementById('r9'),
+                                r10 = document.getElementById('r10');
+                            m0.textContent = "m0: " + data.m0;
+                            m0a.textContent = "m0a: " + data.m0a;
+                            m0b.textContent = "m0b: " + data.m0b;
+                            r0.textContent = data.r0;
+                            if (data.r0 == "up") {
+                                r1.textContent = data.r1;
+                                r2.textContent = data.r2;
+                                r3.textContent = data.r3;
+                                r4.textContent = data.r4;
+                                r5.textContent = data.r5;
+                                r6.textContent = data.r6;
+                                r7.textContent = data.r7;
+                                r8.textContent = data.r8;
+                                r9.textContent = data.r9;
+                                r10.textContent = data.r10;
+                            } else {
+                                var r0container = document.getElementById('r0-container');
+                                r0container.style.width = '450px';
+                                r0container.style.marginLeft = '30px';
+                                r0container.style.backgroundColor = 'crimson';
+                            }
+                        } else if (data.device == 'second') {
+                            loading.style.display = "none";
+                            results.style.display = "block";
+                            console.log("Received second results")
+                        } else {
+                            console.log("Error: Invalid results data return type.")
+                        }
+                        break;
+                    case 'update':
+                        var loadingmessage = document.getElementById('loading-message');
+                        loadingmessage.textContent = data.message;
+                        break
+                    default:
+                        console.error(
+                            "unsupported event", data);
+                }
+            };
+        </script>
+    </body>
+</html>
